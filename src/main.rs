@@ -13,7 +13,6 @@ extern crate itertools;
 extern crate strum;
 use ash::vk::PipelineLayout;
 use itertools::Itertools;
-use raw_window_handle::{HasDisplayHandle, HasWindowHandle};
 use utils::{cstr};
 use crate::{memory::{print_flags, split_flags, split_flags_u32}, utils::{int_vec_to_f32_vec, print_endianness}};
 use vk_context::*;
