@@ -28,7 +28,15 @@ macro_rules! time_it {
 fn main() {
   let n_sets = 24 * 4; // 24 channels, WXYZ
   let vk_context = create_vk_context::create_vk_context();
-  unpack!(vk_context, entry, instance, physical_device, device, command_pool, main_queue, main_queue_family_index, pipeline_cache);
+  // unpack context
+  let entry = vk_context.entry();
+  let instance = vk_context.instance();
+  let physical_device = vk_context.physical_device();
+  let device = vk_context.device();
+  let command_pool = vk_context.command_pool();
+  let main_queue = vk_context.main_queue();
+  let main_queue_family_index = vk_context.main_queue_family_index();
+  let pipeline_cache = vk_context.pipeline_cache();
 
   // let kernel = int_vec_to_f32_vec(&[1, 2, 1, 1]);
   // let signal = int_vec_to_f32_vec(&[3, 9, 1, 2, 3, 4, 5, 6, 3, 4, 5, 6, 7, 8, 9, 8, 7, 5]);
@@ -131,7 +139,7 @@ fn main() {
       command_buffers.iter().enumerate().for_each(|(i, command_buffer)| {
         let buffers = &buffer_collections[i];
         record_command_buffer(
-          device, command_buffer, main_queue_family_index,
+          device, command_buffer, *main_queue_family_index,
           &buffers.signal_cpu, &buffers.kernel_cpu, &buffers.block_cpu, 
           &buffers.signal_gpu, &buffers.kernel_gpu, &buffers.block_gpu, 
           &pipelines[i], &pipeline_layout, &[descriptor_sets[i]], signal_index
