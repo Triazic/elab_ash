@@ -1,0 +1,14 @@
+{
+  "multiCommand.commands": [
+    {
+      "command": "multiCommand.saveAllAndRun",
+      "sequence": [
+        "workbench.action.files.saveAll",
+        {
+          "command": "workbench.action.tasks.runTask",
+          "args": "rust: cargo run"
+        }
+      ]
+    },
+  ]
+}

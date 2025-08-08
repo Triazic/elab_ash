@@ -1,0 +1,75 @@
+#version 450
+layout(local_size_x = 64) in;
+
+layout(set = 0, binding = 0) buffer Signal {
+  float signal_values[];
+};
+layout(set = 0, binding = 1) buffer Kernel {
+  float kernel_values[];
+};
+layout(set = 0, binding = 2) buffer Block {
+  float block_values[];
+};
+layout(set = 0, binding = 3) buffer Status {
+  float status_values[];
+};
+
+layout(push_constant) uniform PushConstants {
+  uint signalLen;
+  uint kernelLen;
+  uint blockLen;
+  uint signalIndex;
+} constants;
+
+void main() {
+  uint block_idx = gl_GlobalInvocationID.x;
+  float acc = 0.0;
+
+  bool timewaste = false;
+  bool infinite_loop = false;
+
+  float hmm = 0.0;
+  uint layer_1 = 0;
+  if (timewaste) {
+    layer_1 = 1000*100*100;
+  }
+  for (uint i = 0; i < layer_1; i++) {
+    bool isEven = i % 2 == 0;
+    if (isEven) {
+      hmm += 0.00001;
+    }
+    else {
+      hmm -= 0.000001;
+    }
+  }
+
+  hmm = min(hmm, 0.0);
+  // float acc = min(hmm, 0.0);
+
+  // deliberate runtime error
+  // Deliberate OOB access
+  // block_values[9999999] = 1.0;
+
+  uint i = 0;
+  if (infinite_loop) {
+    while (1 == 1) {
+      i++;
+      i = min(0, i); // reset back to 0
+    }
+  }
+ 
+  acc = min(min(0.0, float(i)), float(hmm));
+  for (int i = 0; i < constants.kernelLen; i++) {
+    int kernel_index = i;
+    int signal_index = int(block_idx) - kernel_index;
+    if (signal_index < 0) {
+      break;
+    }
+    float signal_value = signal_values[signal_index + constants.signalIndex];
+    float kernel_value = kernel_values[kernel_index];
+    acc += signal_value * kernel_value;
+  }
+  float res = acc;
+  block_values[block_idx] = res;
+  status_values[block_idx] = float(constants.signalIndex);
+}

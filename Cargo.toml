@@ -1,0 +1,13 @@
+[package]
+name = "elab_ash"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+ash = "0.38.0"
+derive-new = "0.7.0"
+itertools = "0.14.0"
+raw-window-handle = "0.6.2"
+strum = "0.27.1"
+strum_macros = "0.27.1"
+proc_macros = { path = "proc_macros" }
