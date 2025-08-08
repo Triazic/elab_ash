@@ -222,7 +222,7 @@ fn create_and_prepare_cpu_buffer(device: &ash::Device, instance: &ash::Instance,
     ash::vk::BufferUsageFlags::STORAGE_BUFFER
   ;
   let buffer = create_buffer(device, buffer_len, usage);
-  set_object_name(instance, device, buffer, name);
+  // set_object_name(instance, device, buffer, name);
   let requirements = get_buffer_memory_requirements(device, &buffer);
   let memory_type_bits = requirements.memory_type_bits;
   let memory_type_index = 
@@ -259,7 +259,7 @@ fn create_and_prepare_gpu_buffer(device: &ash::Device, instance: &ash::Instance,
     ash::vk::BufferUsageFlags::STORAGE_BUFFER
   ;
   let buffer = create_buffer(device, buffer_len, usage);
-  set_object_name(instance, device, buffer, name);
+  // set_object_name(instance, device, buffer, name);
   let requirements = get_buffer_memory_requirements(device, &buffer);
   let memory_type_bits = requirements.memory_type_bits;
   let memory_type_index = 
